@@ -7,7 +7,7 @@ from st_clickable_images import clickable_images
 
 st.set_page_config(page_title="Talk to me", page_icon='🤖',layout="wide")
 
-# BACK END
+# BACK END #
 @st.cache
 def get_seed():
     return random.randint(0,1000)

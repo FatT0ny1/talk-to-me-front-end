@@ -1,11 +1,13 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import streamlit as st
 from streamlit_chat import message as st_message
 import random
 from PIL import Image
 from st_clickable_images import clickable_images
+import requests
 
 st.set_page_config(page_title="Talk to me", page_icon='🤖',layout="wide")
+
+url = "https://talktome-wzyr3jo7ga-ew.a.run.app"
 
 # BACK END #
 @st.cache
@@ -14,25 +16,16 @@ def get_seed():
 user_avatar = get_seed()
 
 
-@st.experimental_singleton
-def get_models():
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small")
-    model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
-    return tokenizer, model
-
-
 def generate_answer():
 
 
-    tokenizer, model = get_models()
-
-
     user_message = st.session_state.input_text
-    inputs = tokenizer(st.session_state.input_text, return_tensors="pt")
-    result = model.generate(**inputs)
-    message_bot = tokenizer.decode(
-        result[0], skip_special_tokens=True
-    )  # .replace("<s>", "").replace("</s>", "")
+    params = {
+        "character_id" : character_id,
+        "text" : user_message
+    }
+    response = requests.get(url, params)
+    message_bot=response.json()
 
     st.session_state.history.append({"message": user_message, "is_user": True,'avatar_style': 'avataaars',  'seed': user_avatar})
     st.session_state.history.append({"message": message_bot, "is_user": False, 'seed': '58'})
@@ -61,7 +54,7 @@ if 'number_s' not in st.session_state:
     st.session_state['number_s'] = -1
 
     #### First Page #####
-# st.write(st.session_state)
+st.write(st.session_state)
 
 col1,col2 = st.columns([1,3])
 
@@ -149,6 +142,7 @@ if st.session_state['intro']:
         st.image(image, use_column_width = True)
 
     if st.session_state['number_office'] == 4:
+        character_id = 'andy'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Andy <br> </span>and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -165,6 +159,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 3:
+        character_id = 'pam'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Pam <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -181,6 +176,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 2:
+        character_id = 'michael'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Michael <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -197,6 +193,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 1:
+        character_id = 'dwight'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Dwight <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -213,6 +210,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 0:
+        character_id = 'jim'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Jim <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:

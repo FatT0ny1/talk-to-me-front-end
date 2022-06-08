@@ -1,9 +1,11 @@
+import aifc
 import streamlit as st
 from streamlit_chat import message as st_message
 import random
 from PIL import Image
 from st_clickable_images import clickable_images
 import requests
+from audio import Audio
 
 st.set_page_config(page_title="Talk to me", page_icon='🤖',layout="wide")
 
@@ -17,15 +19,22 @@ user_avatar = get_seed()
 
 
 def generate_answer():
+    if st.session_state['button_is_clicked']  == True:
+        ai = Audio(character_id)
+        ai.speech_to_text()
+        user_message = ai.text
+    else:
+        user_message = st.session_state.input_text
 
-
-    user_message = st.session_state.input_text
     params = {
         "character_id" : character_id,
         "text" : user_message
     }
     response = requests.get(url, params)
     message_bot=response.json()
+
+    if st.session_state['button_is_clicked']  == True:
+        ai.text_to_speech(response)
 
     st.session_state.history.append({"message": user_message, "is_user": True,'avatar_style': 'avataaars',  'seed': user_avatar})
     st.session_state.history.append({"message": message_bot, "is_user": False, 'seed': '58'})
@@ -54,7 +63,7 @@ if 'number_s' not in st.session_state:
     st.session_state['number_s'] = -1
 
     #### First Page #####
-st.write(st.session_state)
+# st.write(st.session_state)
 
 col1,col2 = st.columns([1,3])
 
@@ -300,17 +309,6 @@ if st.session_state['intro']:
 
 
 
-### CHANGE AVATAR ------------
-
-    # with col3:
-    #     st_message(**{"message": "Hi that's you", "is_user": False,'avatar_style': 'avataaars',  'seed': user_avatar})
-    #     if st.button('Change Avatar'):
-    #         st.legacy_caching.caching.clear_cache()
-    #         user_avatar = get_seed()
-    #         for chat in st.session_state.history:
-    #             if chat['is_user']:
-    #                 chat["seed"] = user_avatar
-    #         st.experimental_rerun()
 
     with col2:
 
@@ -319,9 +317,24 @@ if st.session_state['intro']:
 
         st.text_input(label=" ", key="input_text",placeholder ='Type your message here', on_change=generate_answer)
         # st.write(st.session_state)
+    with col2:
+        if 'button_is_clicked' not in st.session_state:
+            st.session_state['button_is_clicked'] = False
 
+        def chance_button_status():
+            st.session_state['button_is_clicked']  = (st.session_state['button_is_clicked']  == False)
 
+        button = st.button('🔊', key=None, help='Click me to send audio message', on_click=(chance_button_status), args=None, kwargs=None, disabled=False)
 
+    with col3:
+        change_avatar = st.button('🦸‍♀️', help='Click me to change your avatar')
+        if change_avatar:
+            st.legacy_caching.caching.clear_cache()
+            user_avatar = get_seed()
+            for chat in st.session_state.history:
+                if chat['is_user']:
+                    chat["seed"] = user_avatar
+            st.experimental_rerun()
 
 #SIDE_BAR
 

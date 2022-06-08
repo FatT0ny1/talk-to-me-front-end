@@ -5,7 +5,7 @@ import random
 from PIL import Image
 from st_clickable_images import clickable_images
 import requests
-from audio import Audio
+# from audio import Audio
 
 st.set_page_config(page_title="Talk to me", page_icon='🤖',layout="wide")
 

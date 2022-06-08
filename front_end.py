@@ -19,12 +19,12 @@ user_avatar = get_seed()
 
 
 def generate_answer():
-    if st.session_state['button_is_clicked']  == True:
-        ai = Audio(character_id)
-        ai.speech_to_text()
-        user_message = ai.text
-    else:
-        user_message = st.session_state.input_text
+    # if st.session_state['button_is_clicked']  == True:
+    #     ai = Audio(character_id)
+    #     ai.speech_to_text()
+    #     user_message = ai.text
+    # else:
+    user_message = st.session_state.input_text
 
     params = {
         "character_id" : character_id,
@@ -33,8 +33,8 @@ def generate_answer():
     response = requests.get(url, params)
     message_bot=response.json()
 
-    if st.session_state['button_is_clicked']  == True:
-        ai.text_to_speech(response)
+    # if st.session_state['button_is_clicked']  == True:
+    #     ai.text_to_speech(response)
 
     st.session_state.history.append({"message": user_message, "is_user": True,'avatar_style': 'avataaars',  'seed': user_avatar})
     st.session_state.history.append({"message": message_bot, "is_user": False, 'seed': '58'})

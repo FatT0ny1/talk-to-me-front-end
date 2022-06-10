@@ -28,7 +28,6 @@ def generate_answer():
         "text" : user_message
     }
     response = requests.get(url_chat, params)
-    st.write(response)
     message_bot=response.json()
 
     st.session_state.history.append({"message": user_message, "is_user": True,'avatar_style': 'avataaars',  'seed': user_avatar})
@@ -230,7 +229,7 @@ if st.session_state['intro']:
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 3:
         requests.get(url_reset)
-        character_id = "bart simpson"
+        character_id = "Marge Simpson"
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Marge <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -247,7 +246,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 2:
-        character_id = "homer simpson"
+        character_id = "Lisa Simpson"
         requests.get(url_reset)
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Lisa <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
@@ -266,7 +265,7 @@ if st.session_state['intro']:
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 1:
         requests.get(url_reset)
-        character_id = 'marge simpson'
+        character_id = 'homer simpson'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Homer <br> </span> and <span style="color:red"> have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -284,7 +283,7 @@ if st.session_state['intro']:
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 0:
         requests.get(url_reset)
-        character_id = 'lisa simpson'
+        character_id = 'bart simpson'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Bart <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:

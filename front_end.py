@@ -229,7 +229,7 @@ if st.session_state['intro']:
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 3:
         requests.get(url_reset)
-        character_id = "Marge Simpson"
+        character_id = "marge simpson"
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Marge <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -246,7 +246,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 2:
-        character_id = "Lisa Simpson"
+        character_id = "lisa simpson"
         requests.get(url_reset)
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Lisa <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)

@@ -10,6 +10,8 @@ import requests
 st.set_page_config(page_title="Talk to me", page_icon='🤖',layout="wide")
 
 url = "https://talktome-wzyr3jo7ga-ew.a.run.app"
+url_chat = url + '/chat'
+url_reset = url + '/reset'
 
 # BACK END #
 @st.cache
@@ -19,22 +21,15 @@ user_avatar = get_seed()
 
 
 def generate_answer():
-    # if st.session_state['button_is_clicked']  == True:
-    #     ai = Audio(character_id)
-    #     ai.speech_to_text()
-    #     user_message = ai.text
-    # else:
     user_message = st.session_state.input_text
 
     params = {
         "character_id" : character_id,
         "text" : user_message
     }
-    response = requests.get(url, params)
+    response = requests.get(url_chat, params)
+    st.write(response)
     message_bot=response.json()
-
-    # if st.session_state['button_is_clicked']  == True:
-    #     ai.text_to_speech(response)
 
     st.session_state.history.append({"message": user_message, "is_user": True,'avatar_style': 'avataaars',  'seed': user_avatar})
     st.session_state.history.append({"message": message_bot, "is_user": False, 'seed': '58'})
@@ -63,7 +58,6 @@ if 'number_s' not in st.session_state:
     st.session_state['number_s'] = -1
 
     #### First Page #####
-# st.write(st.session_state)
 
 col1,col2 = st.columns([1,3])
 
@@ -80,12 +74,6 @@ if st.session_state['hide_everything'] == True:
     st.markdown('<h2 style="background-color:#f3bdba;padding:3px;border:1px black;border-radius:15px;text-align:center"><b><strong><span style="color:red"> Select your character</span></strong></b></h2>',unsafe_allow_html=True)
 
     col1,col2,col3,col4,col5, = st.columns([1,1,1,1,1])
-
-
-    # OLD IMAGES
-
-    # "https://www.looper.com/img/gallery/who-voices-bart-on-the-simpsons/l-intro-1650682725.jpg"
-    # "https://br.web.img2.acsta.net/r_1280_720/newsv7/20/08/20/22/44/03441350.jpg"
 
 
     # Clickable images!
@@ -151,6 +139,7 @@ if st.session_state['intro']:
         st.image(image, use_column_width = True)
 
     if st.session_state['number_office'] == 4:
+        requests.get(url_reset)
         character_id = 'andy'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Andy <br> </span>and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
@@ -168,6 +157,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 3:
+        requests.get(url_reset)
         character_id = 'pam'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Pam <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
@@ -185,6 +175,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 2:
+        requests.get(url_reset)
         character_id = 'michael'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Michael <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
@@ -202,6 +193,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 1:
+        requests.get(url_reset)
         character_id = 'dwight'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Dwight <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
@@ -219,6 +211,7 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_office'] == 0:
+        requests.get(url_reset)
         character_id = 'jim'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Jim <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
@@ -236,6 +229,8 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 3:
+        requests.get(url_reset)
+        character_id = "bart simpson"
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Marge <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -252,6 +247,8 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 2:
+        character_id = "homer simpson"
+        requests.get(url_reset)
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Lisa <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -268,6 +265,8 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 1:
+        requests.get(url_reset)
+        character_id = 'marge simpson'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Homer <br> </span> and <span style="color:red"> have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -284,6 +283,8 @@ if st.session_state['intro']:
                         """,
                         unsafe_allow_html=True)
     if st.session_state['number_s'] == 0:
+        requests.get(url_reset)
+        character_id = 'lisa simpson'
         with col2:
             st.markdown('<h2><strong><b> Start chatting with <span style="color:red">Bart <br> </span> and<span style="color:red">  have fun</span></b></strong></h2>', unsafe_allow_html=True)
         with col3:
@@ -307,9 +308,6 @@ if st.session_state['intro']:
     st.session_state['second_page'] = False
 
 
-
-
-
     with col2:
 
         for chat in st.session_state.history:
@@ -317,14 +315,6 @@ if st.session_state['intro']:
 
         st.text_input(label=" ", key="input_text",placeholder ='Type your message here', on_change=generate_answer)
         # st.write(st.session_state)
-    with col2:
-        if 'button_is_clicked' not in st.session_state:
-            st.session_state['button_is_clicked'] = False
-
-        def chance_button_status():
-            st.session_state['button_is_clicked']  = (st.session_state['button_is_clicked']  == False)
-
-        button = st.button('🔊', key=None, help='Click me to send audio message', on_click=(chance_button_status), args=None, kwargs=None, disabled=False)
 
     with col3:
         change_avatar = st.button('🦸‍♀️', help='Click me to change your avatar')
@@ -335,15 +325,3 @@ if st.session_state['intro']:
                 if chat['is_user']:
                     chat["seed"] = user_avatar
             st.experimental_rerun()
-
-#SIDE_BAR
-
-# #     ### Create sidebar
-#     with col3:
-
-#         if st.button("🍳", help='More Information'):
-
-#             st.sidebar.subheader('*Meet the Team*')
-#             st.sidebar.write('[Blandine Delval](https://www.linkedin.com/in/blandine-delval-32a693147/)')
-#             st.sidebar.write('[Immy Stege](https://www.linkedin.com/in/immy-stege-863093165/)')
-#             st.sidebar.write('[Pedro Sousa](https://www.linkedin.com/in/pedro-bongiovanni-9b1579184//)')
